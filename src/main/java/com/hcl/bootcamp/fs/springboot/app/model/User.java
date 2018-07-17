@@ -1,5 +1,6 @@
 package com.hcl.bootcamp.fs.springboot.app.model;
 
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
 
@@ -23,7 +24,7 @@ import javax.persistence.ManyToMany;
 //@Builder
 //@NoArgsConstructor
 //@AllArgsConstructor
-public class User {
+public class User implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(columnDefinition = "serial")

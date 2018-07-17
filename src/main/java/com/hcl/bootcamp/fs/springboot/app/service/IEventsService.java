@@ -15,7 +15,7 @@ public interface IEventsService {
 	 * @param id - Events ID
 	 * @return - Event
 	 */
-	public EventVO findById(Integer id);
+	public EventVO findById(Long id);
 
 	/**
 	 * Saves new event in the database
@@ -28,4 +28,7 @@ public interface IEventsService {
 	 * @param pEventVO
 	 */
 	public void delete(EventVO pEventVO);	
+	
+	public void update(EventVO pEventVO);	
+	
 }
