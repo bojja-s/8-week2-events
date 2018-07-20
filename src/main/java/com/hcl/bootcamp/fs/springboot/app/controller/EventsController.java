@@ -67,10 +67,17 @@ public class EventsController {
 					}
 				}
 			}else {
-				String actions[] = {"Join"};
-				i_EventVO.setActions(actions);			
-				i_EventVOListOfOtherStates.add(i_EventVO);
-				System.out.println("Other State Event");
+				if ( i_EventVO.getStatus() != null && i_EventVO.getStatus().equals(EventsService.m_Status_New)){
+					String actions[] = {"Join"};
+					i_EventVO.setActions(actions);			
+					i_EventVOListOfOtherStates.add(i_EventVO);
+					System.out.println("Other State Event");
+				}else {
+					String actions[] = {"Joining","Cancel"};
+					i_EventVO.setActions(actions);			
+					i_EventVOListOfOtherStates.add(i_EventVO);
+					System.out.println("Other State Event");					
+				}
 			}
 		}
 		model.addAttribute("hoststateevents", i_EventVOListOfOwnState);
@@ -115,10 +122,7 @@ public class EventsController {
 		EventVO i_EventVO = m_EventsService.findById(id);
 		System.out.println(i_EventVO);
 		model.addAttribute("editevent", i_EventVO);
-		
-		redirectAttributes.addFlashAttribute("css", "success");
-		redirectAttributes.addFlashAttribute("msg", "Event is deleted!");
-		
+	
 		return "screen3";
 	}
 	@RequestMapping(value = "/events/update", method = RequestMethod.POST)
@@ -128,17 +132,41 @@ public class EventsController {
 		m_EventsService.update(i_EventVO);
 		return "redirect:/screen2";
 	}
-	@RequestMapping(value = "/events/{id}/Delete", method = RequestMethod.GET)
-	public String delete(@PathVariable("id") int id, final RedirectAttributes redirectAttributes) {
-		System.out.println("DEL() : {}"+ id);
-		
-
-		//userService.delete(id);
-		
-		redirectAttributes.addFlashAttribute("css", "success");
-		redirectAttributes.addFlashAttribute("msg", "Event is deleted!");
-		
+	@RequestMapping(value = "/events/{id}/Join", method = RequestMethod.GET)
+	public String join(@PathVariable("id") Long id,@ModelAttribute("eventForm") EventForm pEventForm, BindingResult bindingResult,Model model, final RedirectAttributes redirectAttributes) {
+		System.out.println("JOIN() : {}"+ pEventForm);
+		EventVO i_EventVO = m_EventsService.findById(id);
+		i_EventVO.setStatus(EventsService.m_Status_Joined);
+		m_EventsService.update(i_EventVO);
+		redirectAttributes.addFlashAttribute("msg", "Joined event sucessfully!");
 		return "redirect:/screen2";
+	}	
+	@RequestMapping(value = "/events/{id}/Delete", method = RequestMethod.GET)
+	public String delete(@PathVariable("id") Long id,@ModelAttribute("eventForm") EventForm pEventForm, BindingResult bindingResult,Model model, final RedirectAttributes redirectAttributes) {
+		System.out.println("DELETE() : {}"+ pEventForm);
+		EventVO i_EventVO = m_EventsService.findById(id);
+		i_EventVO.setStatus(EventsService.m_Status_Deleted);
+		m_EventsService.update(i_EventVO);
+		redirectAttributes.addFlashAttribute("msg", "Event removed sucessfully!");
+		return "redirect:/screen2";
+	}		
+	@RequestMapping(value = "/events/{id}/Cancel", method = RequestMethod.GET)
+	public String cancel(@PathVariable("id") Long id,@ModelAttribute("eventForm") EventForm pEventForm, BindingResult bindingResult,Model model, final RedirectAttributes redirectAttributes) {
+		System.out.println("CANCEL() : {}"+ pEventForm);
+		EventVO i_EventVO = toEventVO(pEventForm);
+		i_EventVO.setStatus(EventsService.m_Status_New);
+		m_EventsService.update(i_EventVO);
+		redirectAttributes.addFlashAttribute("msg", "Event is cancelled!");
+		return "redirect:/screen2";
+	}	
+	//Screen4
+	@RequestMapping(value = "/events/{id}/details", method = RequestMethod.GET)
+	public String details(@PathVariable("id") Long id, Model model,final RedirectAttributes redirectAttributes) {
+		System.out.println("details() : {}"+ id);
+		EventVO i_EventVO = m_EventsService.findById(id);
+		System.out.println(i_EventVO);
+		model.addAttribute("selectedevent", i_EventVO);
+		return "screen4";
 	}	
 	// Util functions
 	private EventVO toEventVO(EventForm pEventForm) {

@@ -20,12 +20,11 @@ public class EventsService implements IEventsService {
 	public static final String m_Status_New = "NEW";
 
 	public static final String m_Status_Joined = "Joined";
-	
-	//public static final String m_Status_Edit_Label = "Edit";
+
 	public static final String m_Status_Edit_Action = "Edit";
 	
-	//public static final String m_Status_Delete_Label = "Delete";
-	public static final String m_Status_Delete_Action = "Delete";
+	public static final String m_Status_Deleted = "Deleted";
+
 	
 	@Autowired
 	EventsRepository m_EventsRepository;

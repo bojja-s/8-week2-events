@@ -66,11 +66,12 @@
 		</thead>
 		<c:forEach var="otherstatesevent" items="${otherstatesevents}">
 				<tr>
-					<td> ${otherstatesevent.name} </td>
+					<spring:url value="/events/${otherstatesevent.id}/details" var="actionThreeURL" />
+					<td style="cursor:pointer" onclick="location.href='${actionThreeURL}'">${otherstatesevent.name}</td>
 					<td>${otherstatesevent.date}</td>
 					<td>${otherstatesevent.location}, ${otherstatesevent.state} </td>
 					<td>${otherstatesevent.user.firstName}</td>
-					<td>
+					
 					<spring:url value="/events/${otherstatesevent.id}/${otherstatesevent.actions[0]}" var="actionOneURL" />
 					<spring:url value="/events/${otherstatesevent.id}/${otherstatesevent.actions[1]}" var="actionTwoURL" />
 					<button class="btn btn-primary" onclick="location.href='${actionOneURL}'">${otherstatesevent.actions[0]}</button>
