@@ -9,6 +9,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 
 @Entity(name = "events")
@@ -23,6 +24,10 @@ public class EventVO implements Serializable {
 	String state;
 	String host;
 	String status;
+    @Column(name="messagewall", columnDefinition="CLOB NOT NULL") 
+    @Lob 
+    private String messagewall;
+
 	transient String[] actions;
 	
 	@ManyToOne
@@ -85,6 +90,13 @@ public class EventVO implements Serializable {
 	}
 	public void setUser(User user) {
 		this.user = user;
+	}
+	
+	public String getMessagewall() {
+		return messagewall;
+	}
+	public void setMessagewall(String messagewall) {
+		this.messagewall = messagewall;
 	}
 	@Override
 	public String toString() {

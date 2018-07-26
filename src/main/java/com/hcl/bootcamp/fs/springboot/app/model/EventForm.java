@@ -12,6 +12,7 @@ public class EventForm {
 	private String state;
 	private String host;
 	private String status;
+	private String comment;
 	
 
 }

@@ -31,4 +31,6 @@ public interface IEventsService {
 	
 	public void update(EventVO pEventVO);	
 	
+	public List<Object[]> findAllUsersForListing(Long id);
+	
 }

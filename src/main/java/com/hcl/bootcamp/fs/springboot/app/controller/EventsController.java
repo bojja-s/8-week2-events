@@ -166,7 +166,29 @@ public class EventsController {
 		EventVO i_EventVO = m_EventsService.findById(id);
 		System.out.println(i_EventVO);
 		model.addAttribute("selectedevent", i_EventVO);
+		List<Object[]> i_AllUsersForListing = m_EventsService.findAllUsersForListing(id);
+		System.out.println(i_AllUsersForListing);
+		for (Object[] i_Obj:i_AllUsersForListing) {
+			System.out.println(i_Obj[0]);
+			System.out.println(i_Obj[1]);
+			System.out.println(i_Obj[2]);
+		}
+		model.addAttribute("allusersforlisting", i_AllUsersForListing);
+		
 		return "screen4";
+	}	
+	@RequestMapping(value = "/events/{id}/updatedetails", method = RequestMethod.POST)
+	public String updatedetails(@PathVariable("id") Long id,@ModelAttribute("eventForm") EventForm pEventForm, BindingResult bindingResult,Model model, final RedirectAttributes redirectAttributes) {
+		System.out.println("updatedetails() : {}"+ pEventForm);
+		String i_Comment = pEventForm.getComment();
+		
+		EventVO i_EventVO = m_EventsService.findById(id);
+		String i_Messagewall = "sdasdasdas" + "\n" + i_Comment;
+		i_EventVO.setMessagewall(i_Messagewall);
+		System.out.println("i_Messagewall " + i_Messagewall );
+		
+		m_EventsService.update(i_EventVO);
+		return "redirect:/screen2";
 	}	
 	// Util functions
 	private EventVO toEventVO(EventForm pEventForm) {

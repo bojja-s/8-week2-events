@@ -72,5 +72,11 @@ public class EventsService implements IEventsService {
 		m_EventsRepository.update(pEventVO.getId(),pEventVO.getName());
 		m_Logger.debug(m_End + i_MethodName);
 	}
-	
+	public List<Object[]> findAllUsersForListing(Long id){
+		final String i_MethodName = " jpa:IEventsService:findAllUsersForListing";
+		m_Logger.debug(m_Start + i_MethodName);		
+		List<Object[]> i_AllUsersForListing = m_EventsRepository.findAllUsersForListing(id);
+		m_Logger.debug(m_End + i_MethodName);
+		return i_AllUsersForListing;
+	}
 }
